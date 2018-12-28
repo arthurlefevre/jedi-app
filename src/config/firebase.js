@@ -1,5 +1,5 @@
-import * as firebase from 'firebase';
-require("firebase/firestore");
+import firebase from '@firebase/app';
+import '@firebase/firestore';
 
 import { FirebaseConfig } from "../config/keys";
 firebase.initializeApp(FirebaseConfig);

@@ -34,8 +34,7 @@ export default function reducer(state = { jedis: [], loading: true }, action) {
     case DELETE_JEDIS:
       return { ...state, loading: true };
     case DELETE_JEDIS_SUCCESS:
-      state.jedis.splice(state.jedis.findIndex(o => action.payload.id === o.id), 1);
-      return { ...state, loading: false};
+      return { ...state, loading: false, jedis: [...state.jedis.filter(o => action.payload.id !== o.id)]};
     default:
       return state;
   }
@@ -45,8 +44,22 @@ export const addJedi = name => async dispatch => {
   jedisRef.add({ name }).then(({ id }) => dispatch({type: ADD_JEDIS_SUCCESS, payload: {id, name}}));
 };
 
-export const removeJedi = id => async dispatch => {
-  jedisRef.doc(id).delete().then(() => dispatch({type: DELETE_JEDIS_SUCCESS, payload: {id}}));
+export const deleteJedi = id => async dispatch => {
+  jedisRef.doc(id).delete().then(() => {
+    dispatch({
+      type: GET_JEDIS,
+    });
+    jedisRef.get().then(snapshot => {
+      const payload = [];
+      snapshot.forEach(function(doc) {
+        payload.push({id: doc.id, ...doc.data()});
+      })
+      dispatch({
+        type: GET_JEDIS_SUCCESS,
+        payload
+      });
+    });
+  });
 };
 
 export const listJedis = () => async dispatch => {
