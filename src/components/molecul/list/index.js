@@ -35,7 +35,7 @@ List.defaultProps = {
 
 List.propTypes = {
   datas: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number.isRequired,
+    id: PropTypes.any.isRequired,
     name: PropTypes.string.isRequired,
   })),
   onModify: PropTypes.func,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TouchableOpacity, View, FlatList, Text, Button, ActivityIndicator } from 'react-native';
+import { View, Text, ActivityIndicator } from 'react-native';
 import { connect } from 'react-redux';
 
 import { listJedis, deleteJedi } from '../../reducer';
@@ -12,9 +12,7 @@ class HomeScreen extends React.Component {
     };
 
     componentDidMount() {
-      setTimeout(() => {
-        this.props.listJedisAction();
-      }, 2000);
+      this.props.listJedisAction();
     }
 
     render() {
